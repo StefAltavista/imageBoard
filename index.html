@@ -16,6 +16,7 @@
                     name="image"
                     accept="image/*"
                     style="display: none;"
+                    @change="handleFileChange"
                 />
                 <input
                 v-model="username"
@@ -38,19 +39,17 @@
                 <button @submit="loading">submit</button>
             </form>
             <!-- use parent element to start loop -->
-            <div class="image" v-for="img in images" :id="img.id">
-                <div>
+        <div id="images">
+            <div class="post" v-for="img in images" :id="img.id" @click="selected(img.id)">
                     <!-- : is short for v-bind: -->
                     <img :src="img.url" :alt="img.title" />
-                </div>
-                <div>
                     <!-- use js inside {{}} and access object properties -->
-                    <h3>Title: {{img.title}}</h3>
-                    <p>User: {{img.username}}</p>
-                    <p>Description: {{img.description}}</p>
-                    <p>{{img.username}} created at {{img.created_at}}</p>
-                </div>
+                    <h3>{{img.title.toUpperCase()}}</h3>
+                    
             </div>
+        </div>
+            <imgdetail v-if="selectedImg"
+            :selected-img="selectedImg" @close-selected="closeDetail"></imgdetail>
         </div>
         <script
             src="/js/app.js"

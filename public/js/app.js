@@ -1,4 +1,7 @@
 import * as Vue from "./vue.js";
+import * as select from "./components/select.js";
+
+const { imgdetail } = select;
 
 const app = Vue.createApp({
     data() {
@@ -8,6 +11,8 @@ const app = Vue.createApp({
             description: "",
             username: "",
             created_at: "",
+            load: false,
+            selectedImg: "",
         };
     },
     mounted() {
@@ -44,9 +49,20 @@ const app = Vue.createApp({
             console.log("Change File\t", e.target.files[0]);
             this.img = e.target.files[0];
         },
-        loading(e) {
+        loading() {
             console.log("Loading...");
-            this.img = e.target.files[0];
+            this.load = true;
         },
+        selected(img) {
+            console.log(`img ${img} selected`);
+            this.selectedImg = img;
+        },
+        closeDetail() {
+            this.selectedImg = null;
+            console.log(this.viewdetail, this.selectedImg);
+        },
+    },
+    components: {
+        imgdetail: imgdetail,
     },
 }).mount("#main");

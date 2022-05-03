@@ -3,6 +3,9 @@
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
         sans-serif;
 }
+#main {
+    position: relative;
+}
 form {
     border-bottom: 2px solid gray;
     display: flex;
@@ -42,19 +45,44 @@ label {
     border: 0;
 } */
 
-.image {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
+#images {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.post {
     background-color: rgb(223, 223, 223);
     margin: 20px;
+    width: 240px;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
+
+.post h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 240px;
+    height: 240px;
+    background-color: rgba(0, 0, 0, 0.383);
+    color: rgb(255, 255, 255);
+    position: absolute;
+    transition: opacity 500ms;
+    opacity: 0;
+    cursor: pointer;
+}
+.post h3:hover {
+    opacity: 1;
+}
+
 img {
     border: 2px solid white;
     margin: 20px;
     width: 200px;
     height: 200px;
-
     object-fit: cover;
 }
 .upload {
@@ -66,4 +94,81 @@ img {
     height: 20px;
     border: 0;
     cursor: pointer;
+}
+#overlay {
+    top: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.521);
+    display: flex;
+    justify-content: center;
+}
+#overview {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+}
+
+#overview img {
+    border: 2px solid white;
+    background-color: white;
+    width: 500px;
+    height: 500px;
+    object-fit: scale-down;
+    margin-right: 0;
+}
+
+#overview aside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(7, 1fr);
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+    width: 300px;
+    height: 500px;
+}
+#overview aside h6 {
+    color: gray;
+}
+#overview aside * {
+    display: flex;
+    align-items: flex-start;
+}
+#newcomment {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 8;
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+}
+
+textarea {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(66, 70, 67);
+    color: rgb(198, 249, 227);
+    border: 0;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+#comments {
+    height: 50%;
+    background-color: white;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    overflow: scroll;
+    align-self: flex-start;
+    border-radius: 10px;
+    margin: 2px;
+}
+#comment {
+    background-color: rgb(66, 70, 67);
+    color: rgb(198, 249, 227);
 }

@@ -17,14 +17,28 @@ if (process.env.DATABASE_URL) {
     console.log(`[db] Connecting to: local`);
 }
 
-const selectAll = () => db.query(`SELECT * FROM images`);
+const selectAll = () => db.query(`SELECT * FROM images ORDER BY id DESC;`);
+const select = (id) => db.query(`SELECT * FROM images WHERE id=$1`, [id]);
 const insertImg = (imgUrl, username, title, description) => {
     return db.query(
         `INSERT INTO images (url, username, title, description) VALUES ($1, $2, $3, $4) RETURNING *`,
         [imgUrl, username, title, description]
     );
 };
+const comments = (id) =>
+    db.query(`SELECT * FROM comments WHERE comment_id=$1 ORDER BY id DESC`, [
+        id,
+    ]);
+const insertComment = (id, username, comment) => {
+    return db.query(
+        `INSERT INTO comments (comment_id, username, comment) VALUES ($1, $2, $3) RETURNING *`,
+        [id, username, comment]
+    );
+};
 module.exports = {
     selectAll,
     insertImg,
+    select,
+    comments,
+    insertComment,
 };

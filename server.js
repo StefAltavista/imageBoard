@@ -34,14 +34,22 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/images", (req, res) => {
     db.selectAll()
         .then(({ rows }) => {
-            rows = rows.reverse();
-            console.log("Server, get/images:\n", rows);
+            // console.log("Server, get/images:\n", rows);
             res.json(rows);
         })
         .catch((err) => {
             res.status(400);
             console.log(err);
         });
+});
+
+app.get("/selected/", (req, res) => {
+    const { id } = req.query;
+    db.select(id)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((error) => console.log("no image found", error));
 });
 
 app.post("/upload_img", uploader.single("image"), upload, (req, res) => {
@@ -51,6 +59,30 @@ app.post("/upload_img", uploader.single("image"), upload, (req, res) => {
         db.insertImg(imgUrl, username, title, description).then((img) => {
             console.log("upload succesful");
             res.json(img.rows[0]);
+        });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
+///comments///
+
+app.get("/comments/", (req, res) => {
+    const { id } = req.query;
+    db.comments(id)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((error) => console.log("no comment found", error));
+});
+app.post("/post_comment", (req, res) => {
+    const { id, username, comment } = req.body;
+    if (req.body) {
+        db.insertComment(id, username, comment).then((x) => {
+            console.log("comment succesful");
+            res.json(x.rows[0]);
         });
     } else {
         res.json({
