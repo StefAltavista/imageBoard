@@ -21,7 +21,7 @@ const imgdetail = {
                 <h6>created by:</h6>
                 <p>{{selected.username}}</p>
                 <h6>Date:</h6>
-                <p>{{selected.created_at}} </p>
+                <p>{{formatDate(selected.created_at)}} </p>
                 <add-comment :selected-img="selectedImg" :comments="comments" @new-comment="updateComments"></add-comment>
             </aside>
             
@@ -43,19 +43,13 @@ const imgdetail = {
     },
 
     methods: {
+        formatDate(date) {
+            return new Date(date).toLocaleString();
+        },
         updateComments() {
             console.log("parent emit");
             this.newcomment++;
             this.$emit("update");
-
-            // const curl = `./comments/?id=${this.selectedImg}`;
-
-            // fetch(curl).then((com) =>
-            //     com.json().then((com) => {
-            //         this.comments = com;
-            //         console.log("UPDATE", this.comments);
-            //     })
-            // );
         },
         close(e) {
             if (e.target.id == "overlay") {
@@ -67,16 +61,6 @@ const imgdetail = {
     components: {
         "add-comment": addComment,
         comments: comments,
-    },
-    updated() {
-        // console.log("before Update");
-        // const curl = `./comments/?id=${this.selectedImg}`;
-        // console.log("Comments From updated fetching: ", curl);
-        // fetch(curl).then((com) =>
-        //     com.json().then((com) => {
-        //         this.comments = com;
-        //     })
-        // );
     },
 };
 

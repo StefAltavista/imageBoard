@@ -7,9 +7,13 @@ const comments = {
     props: ["selectedImg", "newcomment"],
     template: `<div id="comments">
     <div id="comment" v-for="x in comments">
-            <p class="user" > user: {{x.username}}</p>
-            <p class="comment" >{{x.comment}}</p>
-            <p class="date">{{x.created_at}}</p>
+    <div class="uscom">
+    <p class="user" >{{x.username}}__ </p>
+    <p class="comment" ><i> "{{x.comment}}"</i></p>
+    </div>
+           
+            
+            <p class="date"><time>{{formatDate(x.created_at)}}</time></p>
     </div></div>
     `,
     mounted() {
@@ -23,12 +27,15 @@ const comments = {
         );
     },
     methods: {
+        formatDate(date) {
+            return new Date(date).toLocaleString();
+        },
         update() {
             this.$parent.$on("update", console.log("child"));
         },
     },
     watch: {
-        newcomment: function (arMsg) {
+        newcomment: function () {
             const url = `./comments/?id=${this.selectedImg}`;
             console.log("Comments From Mounted Selected: ", url);
 

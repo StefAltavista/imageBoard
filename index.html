@@ -7,17 +7,16 @@
     </head>
     <body>
         <div id="main">
+            <header>
+            <div id="banner">
+                <img src="/images/banner.gif"/>
+                <h1 id="title">W R O N G / I M A G E</h1>
+            </div>      
             <form @submit="handleSubmit">
                 <!-- <input v-model="title" name="title" type="text" /> -->
                 
-                <label for="file" class="upload">upload</label>
-                <input id="file"
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    style="display: none;"
-                    @change="handleFileChange"
-                />
+                <!-- <label for="file" class="upload">upload</label> -->
+                
                 <input
                 v-model="username"
                     type="text"
@@ -36,16 +35,29 @@
                 name="description"
                 placeholder="description"
                 />
-                <button @submit="loading">submit</button>
+                <input id="file"
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    @change="handleFileChange"
+                    placeholder="File"
+                />
+                <button>upload</button>
             </form>
+        </header>
+        <div v-if="load" id="loading"><p>loading</p>
+        <div class="circle"></div>
+        </div>
             <!-- use parent element to start loop -->
-        <div id="images">
+            <div class="gallery">
+            <div id="images">
             <div class="post" v-for="img in images" :id="img.id" @click="selected(img.id)">
                     <!-- : is short for v-bind: -->
                     <img :src="img.url" :alt="img.title" />
                     <!-- use js inside {{}} and access object properties -->
                     <h3>{{img.title.toUpperCase()}}</h3>
                     
+            </div>
             </div>
         </div>
             <imgdetail v-if="selectedImg"

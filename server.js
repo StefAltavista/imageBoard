@@ -30,11 +30,31 @@ const uploader = multer({ storage });
 
 app.use(express.urlencoded({ extended: false }));
 
+let lastId;
+function checkId(req, res, next) {
+    if (req.body.lastId) {
+        lastId = req.body.lastId;
+        console.log(req.body);
+        next();
+        return;
+    } else {
+        db.count().then((x) => {
+            console.log("total rows:", x);
+            lastId = x;
+            next();
+            return;
+        });
+    }
+}
 // route from db to vue
-app.get("/images", (req, res) => {
-    db.selectAll()
+app.post("/images", checkId, (req, res) => {
+    db.selectAll(lastId)
         .then(({ rows }) => {
-            // console.log("Server, get/images:\n", rows);
+            console.log(rows);
+            if (rows.length != 0) {
+                lastId = rows[rows.length - 1].id;
+            }
+
             res.json(rows);
         })
         .catch((err) => {
